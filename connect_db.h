@@ -1,8 +1,3 @@
-#include<string>
-#include <stdio.h>
-#include <sqlite3.h>
-#include <cstring>
-#include  <bits/stdc++.h>
 
 using namespace std;
 
@@ -20,12 +15,12 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 int connect(){
     int rc;
 
-    rc=sqlite3_open("simpl",&db);
+    rc=sqlite3_open("simpl.db",&db);
     if( rc ) {
       fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
       return(0);
    } else {
-      fprintf(stderr, "Opened database successfully\n");
+      //fprintf(stderr, "Opened database successfully\n");
    }
    return 0;
 
@@ -54,7 +49,7 @@ int create_tables(){
       fprintf(stderr, "SQL error in creating user table: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    } else {
-      fprintf(stdout, "user table created successfully\n");
+      //fprintf(stdout, "user table created successfully\n");
    }
 
     //creating merchant table if it doesnt already exist
@@ -62,6 +57,7 @@ int create_tables(){
    sql = "CREATE TABLE IF NOT EXISTS MERCHANT(" 
       "ID INTEGER PRIMARY KEY    AUTOINCREMENT," 
       "NAME           TEXT    NOT NULL," 
+      "EMAIL          TEXT    NOT NULL,"
       "DISCOUNT   REAL    DEFAULT 0," 
       "DISCOUNT_TILL_DATE           REAL    DEFAULT 0 );";
 
@@ -71,7 +67,7 @@ int create_tables(){
       fprintf(stderr, "SQL error in creating merchant table: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    } else {
-      fprintf(stdout, "merchant table created successfully\n");
+      //fprintf(stdout, "merchant table created successfully\n");
    }
 
    //creating transaction table if it doesnt already exist
@@ -88,13 +84,13 @@ int create_tables(){
       fprintf(stderr, "SQL error in creating transaction table: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    } else {
-      fprintf(stdout, "transaction table created successfully\n");
+      //fprintf(stdout, "transaction table created successfully\n");
    }
 
     return 0;
 }
 
-list<list<string>>  execute(string sql_inp){
+list<list<string>>  execute_q(string sql_inp){
 
     int rc;
     sqlite3_stmt *stmt;
